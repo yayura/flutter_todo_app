@@ -32,6 +32,7 @@ class _HomeState extends State<Home> {
           itemBuilder: (BuildContext context, int index){
             return Dismissible(key: Key(todoList[index]),
             child: Card(
+              color: Colors.yellow[200],
               child: ListTile(
                 title: Text(todoList[index]),
                 trailing: IconButton(
@@ -65,6 +66,7 @@ class _HomeState extends State<Home> {
         onPressed: (){
           showDialog(context: context, builder: (BuildContext context){
             return AlertDialog(
+              backgroundColor: Colors.yellow[100],
               title: Text('Add element'),
               content: TextField(
                 onChanged: (String value){
