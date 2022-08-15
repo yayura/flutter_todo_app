@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,10 +15,38 @@ class _HomeState extends State<Home> {
   String _userToDo ='';
   List todoList = [];
 
+  void initFirebase() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  }
+
   @override
   void initState() {
     super.initState();
+    initFirebase();
     todoList.addAll(['Example task']);
+  }
+
+  void _menuOpen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (BuildContext context){
+       return Scaffold(
+         appBar: AppBar(title: Text('Menu'), backgroundColor: Colors.amberAccent,),
+         body: Row(
+           children: [
+             ElevatedButton(onPressed: (){
+               Navigator.pop(context);
+               Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+             }, child: Text('Return TO main')),
+             Padding(padding: EdgeInsets.only(left:15)),
+             Text('Simple menu'),
+
+
+           ],
+         ),
+       );
+      })
+    );
   }
 
   @override
@@ -26,6 +57,12 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.amberAccent,
         title: Text('GreenYellowToDolist'),
         centerTitle: true,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.menu_open_outlined),
+            onPressed: _menuOpen,
+               ),
+        ],
       ),
       body: ListView.builder(
           itemCount: todoList.length,
